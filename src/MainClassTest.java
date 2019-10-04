@@ -26,6 +26,6 @@ public class MainClassTest {
         System.out.println("Test testGetClassNumber is started");
         MainClass mainClass= new MainClass();
         String classString = mainClass.getClassString();
-        Assert.assertTrue("The class_string doesn't contain substring hello or Hello. The string is "+ classString, (mainClass.isContaining(classString, "hello"))||mainClass.isContaining(classString, "Hello"));
+        Assert.assertTrue("The class_string doesn't contain substring hello or Hello. The string is "+ classString, (classString.contains("hello")||classString.contains("Hello")));
     }
 }

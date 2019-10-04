@@ -22,11 +22,6 @@ public class MainClass {
         return this.class_string;
     }
 
-    public Boolean isContaining(String string, String substring){
-        if (string.contains(substring)) return true;
-        else return false;
-
-    }
 
 
 
