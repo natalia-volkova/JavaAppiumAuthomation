@@ -41,7 +41,8 @@ public class CoreTestCase extends TestCase {
 
     protected void rotateScreenPortrait()
     {
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        if (ScreenOrientation.LANDSCAPE.equals(true)){
+        driver.rotate(ScreenOrientation.PORTRAIT);}
     }
 
     protected void rotateScreenLandscape()
@@ -68,9 +69,9 @@ public class CoreTestCase extends TestCase {
         }
         else if(platform.equals(PLATFORM_IOS)){
             capabilities.setCapability("platformName", "iOS");
-            capabilities.setCapability("deviceName", "iPhone SE");
-            capabilities.setCapability("platformVersion", "11.3");
-            capabilities.setCapability("app", "Users/hi/Desktop/JavaAppiumAutomation/apks/Wikipedia.app");
+            capabilities.setCapability("deviceName", "iPhone X");
+            capabilities.setCapability("platformVersion", "11.4");
+            capabilities.setCapability("app", "/Users/hi/Desktop/Wikipedia.app");
         }
         else {
             throw new Exception("Cannot get run platform from env variable. Platform value "+platform);
