@@ -1,11 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 public class SearchPageObject extends MainPageObject {
 
@@ -15,7 +11,8 @@ public class SearchPageObject extends MainPageObject {
         SEARCH_CANCEL_BUTTON="id:org.wikipedia:id/search_close_btn",
         SEARCH_RESULT_BY_SUBSTRING_TPL="xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
         SEARCH_RESULT_ELEMENT="xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-        SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results found']";
+        SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results found']",
+            SEARCH_RESULT_TITLE_DESCRIPTION_TPL="xpath://*[*[@text='{TITLE}'] and *[@text='{DESCRIPTION}']]";
 
     public SearchPageObject(AppiumDriver driver){
         super(driver);
@@ -27,6 +24,14 @@ public class SearchPageObject extends MainPageObject {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
     /*TEMPLATES METHODS*/
+
+    /*TEMPLATES METHODS*/
+    private static String getResultSearchTitleDescriptionElement(String title, String description)
+    {
+        return SEARCH_RESULT_TITLE_DESCRIPTION_TPL.replace("{TITLE}", title).replace("{DESCRIPTION}", description);
+    }
+    /*TEMPLATES METHODS*/
+
 
     public void waitForCancelButtonToAppear()
     {
@@ -122,6 +127,12 @@ public class SearchPageObject extends MainPageObject {
     public void assertThereIsNoResultSearch()
     {
         this.assertElementNotPresent((SEARCH_RESULT_ELEMENT), "No supposed no to find any results");
+    }
+
+    public void waitForElementByTitleAndDescription(String title, String description)
+    {
+        String search_result_xpath=getResultSearchTitleDescriptionElement(title, description);
+        this.waitForElementPresent((search_result_xpath), "Cannot find search result with title "+title+" and description "+description);
     }
 
 
