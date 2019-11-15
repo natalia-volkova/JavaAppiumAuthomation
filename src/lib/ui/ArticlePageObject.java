@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import lib.ui.factories.MyListsObjectFactory;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -36,15 +37,33 @@ abstract public class ArticlePageObject extends MainPageObject {
     public String getArticleTitle()
     {
         WebElement title_element = waitForTitlePresent();
-        return title_element.getAttribute("text");
+        if (Platform.getInstance().isAndroid()){
+            return title_element.getAttribute("text");
+
+        }
+        else
+        {return title_element.getAttribute("name");}
     }
 
     public void swipeToFooter()
+
+
     {
-        this.swipeUpToFindElement((FOOTER_ELEMENT),
-                "Cannot find the end of the article",
-                20);
+        if(Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement((FOOTER_ELEMENT),
+                    "Cannot find the end of the article",
+                    40);
+        }
+        else {
+            this.swipeUpTillElementAppear((FOOTER_ELEMENT),
+                    "Cannot find the end of the article",
+                    40);
+        }
     }
+
+
+
+
 
     public void addArticleToNewList(String name_of_folder)
     {
@@ -123,6 +142,9 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
 
-
-
+    public void addArticlesToMySaved() {
+        this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
+                "Cannot find option to add article to reading list",
+                5);
+    }
 }

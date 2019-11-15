@@ -5,8 +5,8 @@ import lib.ui.MyListsPageObject;
 
 public class IOSMyListsPageObject extends MyListsPageObject {
     static {
-        FOLDER_BY_NAME_TPL= "xpath://android.widget.TextView[contains(@text,'{FOLDER_NAME}')]";
-        ARTICLE_BY_TITLE_TPL="xpath://*[@text='{TITLE}']";
+
+        ARTICLE_BY_TITLE_TPL="xpath://XCUIElementTypeLink[contains(@name, '{TITLE}')]";
     }
 
     public IOSMyListsPageObject(AppiumDriver driver) {

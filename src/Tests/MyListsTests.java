@@ -6,33 +6,47 @@ import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListsObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
 public class MyListsTests extends CoreTestCase {
 
+    public static String name_of_folder = "Learning programming";
+
     @Test
     public void testSaveFirstArticleToMyList() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
+        MyListsPageObject MyListsPageObject = MyListsObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
         ArticlePageObject.waitForTitlePresent();
         String article_title= ArticlePageObject.getArticleTitle();
-        String name_of_folder = "Learning programming";
 
 
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.addArticleToNewList(name_of_folder);
+        }
+        else
+            {
+                ArticlePageObject.addArticlesToMySaved();
+            }
 
-        ArticlePageObject.addArticleToNewList(name_of_folder);
+
 
         ArticlePageObject.closeArticle();
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickMyLists();
+        if(Platform.getInstance().isAndroid())
+        {
+            MyListsPageObject.openFolderByName(name_of_folder);
+        }
 
-        MyListsPageObject.openFolderByName(name_of_folder);
         MyListsPageObject.swipeArticleToDelete(article_title);
 
 

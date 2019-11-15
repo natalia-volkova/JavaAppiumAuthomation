@@ -5,14 +5,12 @@ import lib.ui.ArticlePageObject;
 
 public class IOSArticlePageObject extends ArticlePageObject {
     static {
-        TITLE="";
-        FOOTER_ELEMENT = "";
-        OPTIONS_BUTTON="";
-        OPTIONS_ADD_TO_MY_LIST_BUTTON="";
-        ADD_TO_MY_LIST_OVERLAY = "";
-        MY_LIST_NAME_INPUT="";
-        MY_LIST_OK_BUTTON="";
-        CLOSE_ARTICLE_BUTTON="";
+        TITLE="id:Java (programming language)";
+        FOOTER_ELEMENT = "id:View article in browser";
+
+        OPTIONS_ADD_TO_MY_LIST_BUTTON="//XCUIElementTypeButton[@name='Save for later']";
+
+        CLOSE_ARTICLE_BUTTON="id:Back";
         TITLE_ELEMENT="";
     }
 
