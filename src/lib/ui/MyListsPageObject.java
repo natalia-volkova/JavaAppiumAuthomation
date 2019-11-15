@@ -4,11 +4,11 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class MyListsPageObject extends MainPageObject {
+public abstract class MyListsPageObject extends MainPageObject {
 
-    private static final String
-        FOLDER_BY_NAME_TPL= "xpath://android.widget.TextView[contains(@text,'{FOLDER_NAME}')]",
-        ARTICLE_BY_TITLE_TPL="xpath://*[@text='{TITLE}']";
+    protected static String
+        FOLDER_BY_NAME_TPL,
+        ARTICLE_BY_TITLE_TPL;
 
 
     /*TEMPLATES METHODS*/

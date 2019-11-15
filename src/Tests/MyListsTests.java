@@ -5,6 +5,8 @@ import lib.ui.ArticlePageObject;
 import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -12,8 +14,8 @@ public class MyListsTests extends CoreTestCase {
 
     @Test
     public void testSaveFirstArticleToMyList() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
@@ -29,7 +31,7 @@ public class MyListsTests extends CoreTestCase {
         ArticlePageObject.closeArticle();
         NavigationUI NavigationUI = new NavigationUI(driver);
         NavigationUI.clickMyLists();
-        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
+
         MyListsPageObject.openFolderByName(name_of_folder);
         MyListsPageObject.swipeArticleToDelete(article_title);
 

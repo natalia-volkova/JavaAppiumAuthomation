@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.ui.factories.MyListsObjectFactory;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -92,7 +93,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     public void addArticleToExistingList(String name_of_folder)
     {
         this.initiateArticleAdditionToList();
-        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
+        MyListsPageObject MyListsPageObject = MyListsObjectFactory.get(driver);
         MyListsPageObject.openFolderByName(name_of_folder);
 
 
