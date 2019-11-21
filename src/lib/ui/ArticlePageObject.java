@@ -19,24 +19,53 @@ abstract public class ArticlePageObject extends MainPageObject {
         MY_LIST_NAME_INPUT,
         MY_LIST_OK_BUTTON,
         CLOSE_ARTICLE_BUTTON,
-        TITLE_ELEMENT;
+        TITLE_ELEMENT,
+        POPUP_CLOSE_BUTTON;
 
 
+    /*TEMPLATES METHODS*/
+    private static String getActicleTitleIOS(String title)
+    {
+        return TITLE.replace("{TITLE}", title);
+    }
+    /*TEMPLATES METHODS*/
 
     public ArticlePageObject(AppiumDriver driver){
         super(driver);
     }
 
     public WebElement waitForTitlePresent()
+
     {
+
         return this.waitForElementPresent((TITLE),
                 "Cannot find article title on page",
-                15);
+                40);
+    }
+
+    public WebElement waitForTitlePresent(String iosTitle)
+
+    {
+
+        return this.waitForElementPresent(("id:"+iosTitle),
+                "Cannot find article title on page",
+                40);
     }
 
     public String getArticleTitle()
     {
         WebElement title_element = waitForTitlePresent();
+        if (Platform.getInstance().isAndroid()){
+            return title_element.getAttribute("text");
+
+        }
+        else
+        {return title_element.getAttribute("name");}
+    }
+
+    public String getArticleTitle(String iosTitle)
+    {
+        WebElement title_element = waitForTitlePresent(iosTitle);
         if (Platform.getInstance().isAndroid()){
             return title_element.getAttribute("text");
 
@@ -146,5 +175,14 @@ abstract public class ArticlePageObject extends MainPageObject {
         this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find option to add article to reading list",
                 5);
+    }
+
+    public void closeSyncPopup() {
+        waitForElementAndClick(POPUP_CLOSE_BUTTON,
+                "The popup close button cannot be clicked",
+                15);
+        waitForElementNotPresent(POPUP_CLOSE_BUTTON,
+                "The popup close button is still shown",
+                15);
     }
 }

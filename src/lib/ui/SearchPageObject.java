@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.WebElement;
 
 abstract public class SearchPageObject extends MainPageObject {
@@ -50,12 +51,15 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void initSearchInput()
     {
-        this.waitForElementAndClick(((SEARCH_INIT_ELEMENT)), "Cannot find and click init element", 5);
+        this.waitForElementAndClick(((SEARCH_INIT_ELEMENT)), "Cannot find and click init element", 15);
         this.waitForElementPresent((SEARCH_INPUT), "Cannot find search input after clicking search init element");
     }
 
     public void typeSearchLine(String search_line)
+
     {
+        this.waitForElementAndClear(SEARCH_INPUT,
+                "It is not possible to clear search input", 10);
         this.waitForElementAndSendKeys((SEARCH_INPUT), search_line, "Cannot find and type into search input", 5);
     }
 
@@ -74,7 +78,13 @@ abstract public class SearchPageObject extends MainPageObject {
     public String getSearchInputText()
     {
         WebElement search_input_element = waitSearchInputPresent();
-        return search_input_element.getAttribute("text");
+        if (Platform.getInstance().isAndroid()){
+            return search_input_element.getAttribute("text");
+
+        }
+        else
+        {return search_input_element.getAttribute("name");}
+
     }
 
     public WebElement waitSearchInputPresent(){

@@ -56,7 +56,7 @@ public class CoreTestCase extends TestCase {
         if (Platform.getInstance().isIOS())
         {
             WelcomeScreenPageObject WelcomeScreenPageObject = new WelcomeScreenPageObject(driver);
-            WelcomeScreenPageObject.clickSkip();
+            WelcomeScreenPageObject.skipWelcomeScreen();
         }
     }
 

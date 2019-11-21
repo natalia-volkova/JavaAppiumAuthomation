@@ -22,7 +22,7 @@ public class WelcomeScreenPageObject extends MainPageObject{
 
     {this.waitForElementPresent(STEP_LEARN_MORE_LINK,
             "Cannot find 'learn more about Wikipedia' link",
-    10);
+    20);
     }
 
     public void waitForNewWayToExploreText()
@@ -60,5 +60,10 @@ public class WelcomeScreenPageObject extends MainPageObject{
 
     public void clickSkip() {
         this.waitForElementAndClick(SKIP, "Cannot find and click Skip button", 5);
+    }
+
+    public void skipWelcomeScreen(){
+        waitForLearnMoreLink();
+        clickSkip();
     }
 }

@@ -11,6 +11,7 @@ import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 public class MyListsTests extends CoreTestCase {
 
@@ -35,6 +36,7 @@ public class MyListsTests extends CoreTestCase {
         else
             {
                 ArticlePageObject.addArticlesToMySaved();
+                ArticlePageObject.closeSyncPopup();
             }
 
 
@@ -70,8 +72,9 @@ public class MyListsTests extends CoreTestCase {
     public void testSaveTwoArticles() {
         //Find first arcticle
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
+        MyListsPageObject MyListsPageObject = MyListsObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
@@ -81,9 +84,17 @@ public class MyListsTests extends CoreTestCase {
         String article_title_1= ArticlePageObject.getArticleTitle();
         String name_of_folder = "Learning programming";
 
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.addArticleToNewList(name_of_folder);
+        }
+        else
+        {
+            ArticlePageObject.addArticlesToMySaved();
+            ArticlePageObject.closeSyncPopup();
+        }
 
 
-        ArticlePageObject.addArticleToNewList(name_of_folder);
+
 
         ArticlePageObject.closeArticle();
 
@@ -95,10 +106,20 @@ public class MyListsTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(search_line_2);
+
+        SearchPageObject.waitForSearchResult(search_line_2);
         SearchPageObject.clickByArticleWithSubstring("Appium");
-        ArticlePageObject.waitForTitlePresent();
-        String article_title_2= ArticlePageObject.getArticleTitle();
-        ArticlePageObject.addArticleToExistingList(name_of_folder);
+        ArticlePageObject.waitForTitlePresent("Appium");
+        String article_title_2= ArticlePageObject.getArticleTitle("Appium");
+
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.addArticleToExistingList(name_of_folder);
+        }
+        else
+        {
+            ArticlePageObject.addArticlesToMySaved();
+        }
+
         ArticlePageObject.closeArticle();
 
 
@@ -106,10 +127,12 @@ public class MyListsTests extends CoreTestCase {
         //Check that both acticles are added
 
 
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickMyLists();
-        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
-        MyListsPageObject.openFolderByName(name_of_folder);
+        if(Platform.getInstance().isAndroid()){
+            MyListsPageObject.openFolderByName(name_of_folder);
+        }
+
 
         MyListsPageObject.waitForArticleAppearByTitle(article_title_1);
         MyListsPageObject.waitForArticleAppearByTitle(article_title_2);
@@ -126,8 +149,15 @@ public class MyListsTests extends CoreTestCase {
         MyListsPageObject.waitForArticleAppearByTitle(article_title_2);
         MyListsPageObject.openArticleByTitle(article_title_2);
 
+        String title_second_article_after_deletion;
+        if (Platform.getInstance().isAndroid()){
+            title_second_article_after_deletion = ArticlePageObject.getArticleTitle();
+        }
 
-        String title_second_article_after_deletion = ArticlePageObject.getArticleTitle();
+        else
+        {
+            title_second_article_after_deletion = ArticlePageObject.getArticleTitle("Appium");
+        }
 
 
         assertEquals(

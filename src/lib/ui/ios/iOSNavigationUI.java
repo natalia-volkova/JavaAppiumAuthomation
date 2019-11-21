@@ -5,7 +5,7 @@ import lib.ui.NavigationUI;
 
 public class iOSNavigationUI extends NavigationUI{
     static {
-        MY_LISTS_LINK="is:Saved";
+        MY_LISTS_LINK="id:Saved";
     }
 
     public iOSNavigationUI(AppiumDriver driver) {

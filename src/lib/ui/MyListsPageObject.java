@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -44,13 +45,18 @@ public abstract class MyListsPageObject extends MainPageObject {
 
     public void swipeArticleToDelete(String article_title)
     {
-        String article_title_xpath = this.getSavedArticleXpathByTitle(article_title);
+        String article_title_xpath = this.getSavedArticleXpathByTitle(article_title)+"/..";
 
         this.swipeElementToLeft(
-                (article_title_xpath+"/parent::*"),
+                (article_title_xpath),
                 "Cannot find saved article"
 
         );
+
+        if (Platform.getInstance().isIOS())
+        {
+            clickElementToRightUpperCorner(article_title_xpath, "Cannot find saved article");
+        }
 
         this.waitForArticleDisappearByTitle(article_title);
 
